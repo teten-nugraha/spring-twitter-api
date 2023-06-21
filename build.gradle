@@ -40,6 +40,7 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
+    implementation "io.vavr:vavr:0.10.4"
 }
 
 tasks.named('test') {
