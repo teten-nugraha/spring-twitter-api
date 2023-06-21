@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: twitter-api
+  datasource:
+    username: user
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+  token:
+    signing:
+      key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
