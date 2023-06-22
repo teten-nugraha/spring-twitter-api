@@ -25,7 +25,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         var user = User.builder()
@@ -40,27 +39,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         var jwt = jwtService.generateToken(user);
 
-        return JwtAuthenticationResponse.builder()
-                .token(jwt)
-                .build();
+        return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 
     @Override
     public JwtAuthenticationResponse signin(SigninRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        var user = userRepository.findByEmail(request.getEmail())
+        var user = userRepository
+                .findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
 
         var jwt = jwtService.generateToken(user);
 
-        return JwtAuthenticationResponse.builder()
-                .token(jwt)
-                .build();
+        return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 }
