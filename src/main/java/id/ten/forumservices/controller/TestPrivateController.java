@@ -15,5 +15,4 @@ public class TestPrivateController {
     public ResponseEntity<String> sayHello() {
         return ResponseEntity.ok("Here is your resource ");
     }
-
 }
