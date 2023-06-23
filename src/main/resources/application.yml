@@ -2,7 +2,7 @@ spring:
   application:
     name: twitter-api
   datasource:
-    url: jdbc:mysql://localhost:3306/forum-db
+    url: jdbc:mysql://localhost:3306/forum-db?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: password
   jpa:
@@ -13,7 +13,15 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL57Dialect
+    open-in-view: false
 
 token:
   signing:
     key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan: id.ten.forumservices.controller
+  api-docs:
+    enabled: true
