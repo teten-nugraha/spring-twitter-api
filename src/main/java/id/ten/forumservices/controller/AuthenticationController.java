@@ -19,7 +19,7 @@ public class AuthenticationController extends BaseController {
 
     @PostMapping("/signup")
     public ResponseEntity<SuccessResponse> signup(@RequestBody SignUpRequest request) {
-        return ResponseEntity.ok(contructSuccessResponse(authenticationService.signup(request), "signin berhasil"));
+        return ResponseEntity.ok(contructSuccessResponse(authenticationService.signup(request), "signup berhasil"));
     }
 
     @PostMapping("/signin")

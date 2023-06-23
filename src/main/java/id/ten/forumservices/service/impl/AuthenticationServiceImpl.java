@@ -5,9 +5,11 @@ import id.ten.forumservices.dto.request.SigninRequest;
 import id.ten.forumservices.dto.response.JwtAuthenticationResponse;
 import id.ten.forumservices.entities.Role;
 import id.ten.forumservices.entities.User;
+import id.ten.forumservices.exceptions.ResourceAlreadyExistException;
 import id.ten.forumservices.repositories.UserRepository;
 import id.ten.forumservices.service.AuthenticationService;
 import id.ten.forumservices.service.JwtService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +26,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
+
+        Optional<User> existUser = userRepository.findByEmail(request.getEmail());
+        if (existUser.isPresent()) {
+            throw new ResourceAlreadyExistException("User sudah terdaftar");
+        }
+
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
