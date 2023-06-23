@@ -2,7 +2,8 @@ spring:
   application:
     name: twitter-api
   datasource:
-    username: user
+    url: jdbc:mysql://localhost:3306/forum-db
+    username: root
     password: password
   jpa:
     hibernate:
@@ -11,7 +12,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
-  token:
-    signing:
-      key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
+        dialect: org.hibernate.dialect.MySQL57Dialect
+
+token:
+  signing:
+    key: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
