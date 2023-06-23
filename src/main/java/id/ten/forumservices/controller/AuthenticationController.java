@@ -15,16 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController extends BaseController {
-
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
     public ResponseEntity<SuccessResponse> signup(@RequestBody SignUpRequest request) {
-        return ResponseEntity.ok(contructSuccessResponse(authenticationService.signup(request), "signup berhasil"));
+        return ResponseEntity.ok(contructSuccessResponse(authenticationService.signup(request), "signin berhasil"));
     }
 
     @PostMapping("/signin")
     public ResponseEntity<SuccessResponse> signin(@RequestBody SigninRequest request) {
-        return ResponseEntity.ok(contructSuccessResponse(authenticationService.signin(request), "signin berhasil"));
+        return ResponseEntity.ok(contructSuccessResponse(authenticationService.signin(request), "Login Berhasil"));
     }
 }
