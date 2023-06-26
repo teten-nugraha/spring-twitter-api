@@ -1,5 +1,6 @@
 package id.ten.forumservices.service.impl;
 
+import id.ten.forumservices.dto.request.EmailPayload;
 import id.ten.forumservices.dto.request.SignUpRequest;
 import id.ten.forumservices.dto.request.SigninRequest;
 import id.ten.forumservices.dto.response.JwtAuthenticationResponse;
@@ -8,6 +9,7 @@ import id.ten.forumservices.entities.User;
 import id.ten.forumservices.exceptions.ResourceAlreadyExistException;
 import id.ten.forumservices.repositories.UserRepository;
 import id.ten.forumservices.service.AuthenticationService;
+import id.ten.forumservices.service.EmailService;
 import id.ten.forumservices.service.JwtService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -23,23 +25,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
 
-        Optional<User> existUser = userRepository.findByEmail(request.getEmail());
+        Optional<User> existUser = userRepository.findByUsername(request.getUsername());
         if (existUser.isPresent()) {
             throw new ResourceAlreadyExistException("User sudah terdaftar");
         }
 
         var user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
+                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
+                .isActive(false)
                 .build();
         userRepository.save(user);
+        sendEmailForUserSignUp(user);
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
@@ -49,9 +53,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository
-                .findByEmail(request.getEmail())
+                .findByUsername(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
+    }
+
+    private void sendEmailForUserSignUp(User user) {
+        final EmailPayload payload = generatePayload(user);
+        emailService.sendEmail(payload);
+    }
+
+    private EmailPayload generatePayload(User user) {
+        EmailPayload payload = EmailPayload.builder()
+                .destination(user.getEmail())
+                .subject("User Verification Link")
+                .body("Klik link berikut untuk aktivasi http://localhost.com")
+                .build();
+        return payload;
     }
 }

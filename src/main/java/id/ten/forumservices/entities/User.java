@@ -1,12 +1,6 @@
 package id.ten.forumservices.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -28,10 +22,14 @@ public class User extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String firstName;
-    private String lastName;
+    private String username;
     private String email;
     private String password;
+    private String avatar = "";
+    private String location = "";
+    private String shortDescription = "";
+    private Boolean isActive = false;
+    private String activationLink;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -44,7 +42,7 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public String getUsername() {
         // email in our case
-        return email;
+        return username;
     }
 
     @Override

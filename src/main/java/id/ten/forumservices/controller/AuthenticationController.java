@@ -28,26 +28,37 @@ public class AuthenticationController extends BaseController {
 
     @Operation(summary = "Create new User")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", content = {
+        @ApiResponse(
+                responseCode = "201",
+                content = {
                     @Content(schema = @Schema(implementation = SuccessResponse.class), mediaType = "application/json")
-            }),
-            @ApiResponse(responseCode = "500", content = {
+                }),
+        @ApiResponse(
+                responseCode = "500",
+                content = {
                     @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")
-            }),
+                }),
     })
     @PostMapping("/signup")
     public ResponseEntity<SuccessResponse> signup(@RequestBody SignUpRequest request) {
-        return new ResponseEntity<>(contructSuccessResponse(authenticationService.signup(request), "signup berhasil"), HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                contructSuccessResponse(
+                        authenticationService.signup(request), "signup berhasil, silahkan cek email Anda"),
+                HttpStatus.CREATED);
     }
 
     @Operation(summary = "Signin user")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {
+        @ApiResponse(
+                responseCode = "200",
+                content = {
                     @Content(schema = @Schema(implementation = SuccessResponse.class), mediaType = "application/json")
-            }),
-            @ApiResponse(responseCode = "500", content = {
+                }),
+        @ApiResponse(
+                responseCode = "500",
+                content = {
                     @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")
-            }),
+                }),
     })
     @PostMapping("/signin")
     public ResponseEntity<SuccessResponse> signin(@RequestBody SigninRequest request) {
