@@ -1,8 +1,9 @@
 package id.ten.forumservices.entities;
 
 import jakarta.persistence.*;
-import java.util.Collection;
-import java.util.List;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,13 +26,28 @@ public class User extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
+    @NotEmpty
+    @Size(min = 5, max = 30)
+    @NotNull
+    @NotEmpty
+    @Size(min = 5, max = 30)
     private String username;
+
+    @NotNull
+    @NotEmpty
+    @Size(min = 5, max = 30)
     private String email;
+
+    @NotNull
+    @NotEmpty
+    @Size(min = 5, max = 30)
     private String password;
-    private String avatar = "";
-    private String location = "";
-    private String shortDescription = "";
-    private Boolean isActive = false;
+
+    private String avatar;
+    private String location;
+    private String shortDescription;
+    private Boolean isActive;
     private String activationLink;
 
     @Enumerated(EnumType.STRING)

@@ -62,9 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .findByUsername(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
 
-        if(user.getIsActive()) {
-
-        }
+        if (user.getIsActive()) {}
 
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
@@ -73,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String activations(String activationCode) {
         var exitsUser = userRepository.findByActivationLink(activationCode);
-        if(!exitsUser.isPresent()) {
+        if (!exitsUser.isPresent()) {
             throw new ResourceNotFoundException("User tidak terdaftar");
         }
 

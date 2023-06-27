@@ -25,6 +25,14 @@ spring:
           auth: true
           starttls:
             enable: true
+  flyway:
+    baseline-on-migrate: true
+    validate-on-migrate: false
+    url: jdbc:mysql://localhost:3306/forum-db?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    user: root
+    password: password
+    schemas: forum-db
+    locations: filesystem:db/migration
 
 token:
   signing:

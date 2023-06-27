@@ -64,19 +64,20 @@ public class AuthenticationController extends BaseController {
 
     @Operation(summary = "Signin user")
     @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    content = {
-                            @Content(schema = @Schema(implementation = SuccessResponse.class), mediaType = "application/json")
-                    }),
-            @ApiResponse(
-                    responseCode = "500",
-                    content = {
-                            @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")
-                    }),
+        @ApiResponse(
+                responseCode = "200",
+                content = {
+                    @Content(schema = @Schema(implementation = SuccessResponse.class), mediaType = "application/json")
+                }),
+        @ApiResponse(
+                responseCode = "500",
+                content = {
+                    @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")
+                }),
     })
     @PostMapping("/activation/{activation_code}")
     public ResponseEntity<SuccessResponse> activation(@PathVariable("activation_code") String activationCode) {
-        return ResponseEntity.ok(contructSuccessResponse(authenticationService.activations(activationCode), "User telah aktif"));
+        return ResponseEntity.ok(
+                contructSuccessResponse(authenticationService.activations(activationCode), "User telah aktif"));
     }
 }
