@@ -1,18 +1,15 @@
-version: '3'
-
+version: '3.8'
 services:
-  twitter-clone-db:
-    image: mysql:5.7
-    container_name: twitter-clone-db
-    ports:
-      - "3306:3306"
+  db:
+    image: postgres:14.1-alpine
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-#      MYSQL_USER: user
-#      MYSQL_PASSWORD: 123456Aa@
-#      MYSQL_DATABASE: forum-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
     volumes:
-      - my-db:/var/lib/mysql
-
+      - db:/var/lib/postgresql/data
 volumes:
-  my-db:
+  db:
+    driver: local
