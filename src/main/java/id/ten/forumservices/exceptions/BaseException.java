@@ -14,4 +14,9 @@ public class BaseException extends BaseController {
     public ResponseEntity<ErrorResponse> handleResourceAlreadyExistException(ResourceAlreadyExistException exception) {
         return new ResponseEntity<>(constructErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException exception) {
+        return new ResponseEntity<>(constructErrorResponse(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
 }

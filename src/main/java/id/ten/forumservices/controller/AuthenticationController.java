@@ -14,10 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Authentication", description = "Controller untuk manage Signup dan Signin")
 @RestController
@@ -63,5 +60,23 @@ public class AuthenticationController extends BaseController {
     @PostMapping("/signin")
     public ResponseEntity<SuccessResponse> signin(@RequestBody SigninRequest request) {
         return ResponseEntity.ok(contructSuccessResponse(authenticationService.signin(request), "Login Berhasil"));
+    }
+
+    @Operation(summary = "Signin user")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    content = {
+                            @Content(schema = @Schema(implementation = SuccessResponse.class), mediaType = "application/json")
+                    }),
+            @ApiResponse(
+                    responseCode = "500",
+                    content = {
+                            @Content(schema = @Schema(implementation = ErrorResponse.class), mediaType = "application/json")
+                    }),
+    })
+    @PostMapping("/activation/{activation_code}")
+    public ResponseEntity<SuccessResponse> activation(@PathVariable("activation_code") String activationCode) {
+        return ResponseEntity.ok(contructSuccessResponse(authenticationService.activations(activationCode), "User telah aktif"));
     }
 }
