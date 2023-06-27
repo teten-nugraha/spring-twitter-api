@@ -29,14 +29,13 @@ public class User extends BaseEntity implements UserDetails {
     @NotNull
     @NotEmpty
     @Size(min = 5, max = 30)
-    @NotNull
-    @NotEmpty
-    @Size(min = 5, max = 30)
+    @Column(unique = true)
     private String username;
 
     @NotNull
     @NotEmpty
     @Size(min = 5, max = 30)
+    @Column(unique = true)
     private String email;
 
     @NotNull

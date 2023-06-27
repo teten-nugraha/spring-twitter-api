@@ -2,8 +2,8 @@ create table users
 (
     id                int auto_increment
         primary key,
-    username          varchar(255)           not null,
-    email             varchar(255)           not null,
+    username          varchar(255)           not null UNIQUE,
+    email             varchar(255)           not null UNIQUE,
     password          varchar(255)           not null,
     is_active         boolean                default false,
     avatar            varchar(255)           null,
