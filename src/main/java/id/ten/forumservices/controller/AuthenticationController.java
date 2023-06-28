@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class AuthenticationController extends BaseController {
                 }),
     })
     @PostMapping("/signup")
-    public ResponseEntity<SuccessResponse> signup(@RequestBody SignUpRequest request) {
+    public ResponseEntity<SuccessResponse> signup(@RequestBody SignUpRequest request) throws MessagingException {
         return new ResponseEntity<>(
                 contructSuccessResponse(
                         authenticationService.signup(request), "signup berhasil, silahkan cek email Anda"),

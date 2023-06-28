@@ -48,6 +48,7 @@ public class User extends BaseEntity implements UserDetails {
     private String shortDescription;
     private Boolean isActive;
     private String activationLink;
+    private String forgotPasswordCode;
 
     @Enumerated(EnumType.STRING)
     private Role role;

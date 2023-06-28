@@ -12,6 +12,7 @@ import id.ten.forumservices.repositories.UserRepository;
 import id.ten.forumservices.service.AuthenticationService;
 import id.ten.forumservices.service.EmailService;
 import id.ten.forumservices.service.JwtService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final EmailService emailService;
 
     @Override
-    public JwtAuthenticationResponse signup(SignUpRequest request) {
+    public JwtAuthenticationResponse signup(SignUpRequest request) throws MessagingException {
 
         Optional<User> existUser = userRepository.findByUsername(request.getUsername());
         if (existUser.isPresent()) {
@@ -81,7 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return "User berhasil aktif";
     }
 
-    private void sendEmailForUserSignUp(User user, String activationCode) {
+    private void sendEmailForUserSignUp(User user, String activationCode) throws MessagingException {
         var payload = generatePayload(user, activationCode);
         emailService.sendEmail(payload);
     }
@@ -90,7 +91,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         EmailPayload payload = EmailPayload.builder()
                 .destination(user.getEmail())
                 .subject("User Verification Link")
-                .body("Klik link berikut untuk aktivasi http://localhost.com/" + activationCode)
+                .body("<a href=http://localhost:3000/" + activationCode + " target=_blank>http://localhost:3000/"
+                        + activationCode + "</a>")
                 .build();
         return payload;
     }
